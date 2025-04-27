@@ -1,0 +1,7 @@
+crewai
+python-telegram-bot==21.9
+feedparser
+yake
+openai
+python-dotenv
+apscheduler
