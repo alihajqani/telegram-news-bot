@@ -5,9 +5,9 @@ from app.utils.storage import load_seen, add_seen
 class FetcherAgent(Agent):
     def __init__(self):
         super().__init__(
-            role="خبرخوان",
-            goal="یافتن مقالات جدید در فید RSS و تحویل به سایر ایجنت‌ها",
-            backstory="یک دستیار سخت‌کوش که همواره فیدها را زیر نظر دارد."
+            role="News Reader",
+            goal="Finding new articles in the RSS feed and delivering them to other agents",
+            backstory="A hard-working assistant who is always monitoring the feeds."
         )
 
     def run(self, feed_url: str):

@@ -7,9 +7,9 @@ MAX_TRIES = 3
 BACKOFF = 4
 
 class PublisherAgent(Agent):
-    role: ClassVar[str] = "ناشر تلگرام"
-    goal: ClassVar[str] = "ارسال خلاصهٔ خبر به کانال"
-    backstory: ClassVar[str] = "رباتی که خبرها را منتشر می‌کند."
+    role: ClassVar[str] = "Telegram Publisher"
+    goal: ClassVar[str] = "Sending news summary to the channel"
+    backstory: ClassVar[str] = "A bot that publishes news."
     bot: ClassVar[telegram.Bot] = _bot
 
     async def _safe_send(self, **kwargs):
