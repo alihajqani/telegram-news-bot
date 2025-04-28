@@ -7,11 +7,13 @@ import asyncio
 
 class NewsFlow(Flow):
     model = "grok-3-latest"
+    max_posts = 2  # Add constant for max posts
 
     @start()
     def fetch(self):
         feed_url = "https://theartnewspaper.com/rss.xml"
-        return FetcherAgent().run(feed_url)
+        entries = FetcherAgent().run(feed_url)
+        return entries[:self.max_posts]  # Limit initial fetch
 
     @listen(fetch)
     def summarize(self, entries):
@@ -29,6 +31,6 @@ class NewsFlow(Flow):
 
     @listen(tag)
     async def publish(self, tagged):
-        for i, article in enumerate(tagged):
+        for i, article in enumerate(tagged[:self.max_posts]):  # Ensure max 3 posts
             await PublisherAgent().run(article)
             await asyncio.sleep(0.5)
