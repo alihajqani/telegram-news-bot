@@ -6,11 +6,11 @@ from app.agents.publisher import PublisherAgent
 import asyncio
 
 class NewsFlow(Flow):
-    model = "gpt-4o-mini"
+    model = "grok-3-latest"
 
     @start()
     def fetch(self):
-        feed_url = "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
+        feed_url = "https://theartnewspaper.com/rss.xml"
         return FetcherAgent().run(feed_url)
 
     @listen(fetch)
