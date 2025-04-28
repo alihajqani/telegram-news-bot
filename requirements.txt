@@ -5,3 +5,4 @@ yake
 openai
 python-dotenv
 apscheduler
+pytest
