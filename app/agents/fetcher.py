@@ -1,6 +1,7 @@
 from crewai import Agent
 from app.utils.rss import fetch_feed
-from app.utils.storage import load_seen, add_seen
+from app.utils.storage_sqlite import has_article, add_article
+from datetime import datetime
 
 class FetcherAgent(Agent):
     def __init__(self):
@@ -14,11 +15,23 @@ class FetcherAgent(Agent):
         unseen = []
         for entry in fetch_feed(feed_url):
             entry_id = getattr(entry, "id", entry.link)
-            if entry.id not in load_seen():
-                unseen.append({"id": entry.id,
-                               "title": entry.title,
-                               "link": entry.link,
-                               "content": (entry.get("summary") or "")})
-                add_seen(entry.id)
+            if not has_article(entry_id):
+                article = {
+                    "id": entry_id,
+                    "title": entry.title,
+                    "link": entry.link,
+                    "content": (entry.get("summary") or "")
+                }
+                unseen.append(article)
+                
+                # Store in SQLite with minimal info until processed by other agents
+                add_article(
+                    url=entry_id,
+                    title=entry.title,
+                    summary=entry.get("summary", ""),
+                    published=getattr(entry, "published", datetime.now().isoformat()),
+                    tags=[]
+                )
+        
         print(f"[Fetcher] fetched={len(unseen)} unseen")
         return unseen
