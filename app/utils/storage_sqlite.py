@@ -85,6 +85,7 @@ def get_next_pending_article() -> Optional[Dict[str, Any]]:
             return {
                 'id': row[0],
                 'url': row[1],
+                'link': row[1],  # Add link as alias for url
                 'title': row[2],
                 'summary': row[3],
                 'published': row[4],
